@@ -38,3 +38,19 @@ extract_jason <- function(yahoo_url) {
     jsonlite::fromJSON()
   data$chart$result
 }
+
+
+get_symbols <- function(symbols, from, to, frequency) {
+  interval <- time_interval(interval = frequency)
+  min_frequency <- !(interval %in% c("1d", "1wk", "1mo"))
+
+  # meter excepción minutos
+
+  from_posixct <- date_posixct(from)
+  to_posixct <- date_posixct(to)
+
+
+  url <- get_yahoo_url(symbols, from_posixct, to_posixct, interval)
+
+
+}
