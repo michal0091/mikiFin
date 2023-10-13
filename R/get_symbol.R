@@ -30,3 +30,11 @@ get_yahoo_url <- function(symbol, from, to, interval) {
   )
 }
 
+extract_jason <- function(yahoo_url) {
+  res <-
+    httr::GET(yahoo_url)
+  httr::stop_for_status(res)
+  data <- httr::content(res, as = "text", encoding = "UTF-8") %>%
+    jsonlite::fromJSON()
+  data$chart$result
+}
