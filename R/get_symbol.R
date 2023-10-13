@@ -8,3 +8,12 @@ time_interval <- function(interval) {
 }
 
 
+date_posixct <- function(date) {
+  date %>%
+    as.Date() %>%
+    as.POSIXct() %>%
+    as.numeric() %>%
+    trunc()
+}
+
+
