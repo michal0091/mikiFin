@@ -17,3 +17,16 @@ date_posixct <- function(date) {
 }
 
 
+get_yahoo_url <- function(symbol, from, to, interval) {
+  paste0(
+    "https://query2.finance.yahoo.com/v8/finance/chart/",
+    symbol,
+    sprintf(
+      "?period1=%.0f&period2=%.0f&interval=%s",
+      from,
+      to,
+      interval
+    )
+  )
+}
+
