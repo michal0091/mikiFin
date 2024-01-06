@@ -50,7 +50,31 @@ get_symbols <- function(symbols, from, to, frequency) {
   to_posixct <- date_posixct(to)
 
 
-  url <- get_yahoo_url(symbols, from_posixct, to_posixct, interval)
+  lapply(symbols, function(symbol) {
 
+    url <- get_yahoo_url(symbol, from_posixct, to_posixct, interval)
+    data <- extract_jason(url)
+
+    t_zone <- data$meta$exchangeTimezoneName
+    currency <- data$meta$currency
+
+    data.table(
+      symbol = symbol,
+      date = data$timestamp[[1]],
+      open = data$indicators$quote[[1]]$open[[1]],
+      high = data$indicators$quote[[1]]$high[[1]],
+      low = data$indicators$quote[[1]]$low[[1]],
+      close = data$indicators$quote[[1]]$close[[1]],
+      adj_close = data$indicators$adjclose[[1]]$adjclose[[1]],
+      volume = data$indicators$quote[[1]]$volume[[1]],
+      t_zone = t_zone,
+      currency = currency
+    ) %>%
+      .[, date := as.POSIXct(date, origin = "1970-01-01", tz = t_zone)] %>%
+      .[, date := as.Date(date)] %>%
+      .[order(symbol, date)]
+
+  }) %>%
+    rbindlist()
 
 }
