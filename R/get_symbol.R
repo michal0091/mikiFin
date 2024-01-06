@@ -6,8 +6,6 @@
 #' @param interval Admitted values are 'daily', 'weekly', 'monthly', 'hourly'
 #'
 #' @keywords internal
-#' @export
-#'
 time_interval <- function(interval) {
   data("time_intervals", envir = environment())
   stopifnot(interval %in% names(time_intervals))
@@ -21,8 +19,6 @@ time_interval <- function(interval) {
 #' @param date A date format.
 #'
 #' @keywords internal
-#' @export
-#'
 date_posixct <- function(date) {
   date %>%
     as.Date() %>%
@@ -39,9 +35,6 @@ date_posixct <- function(date) {
 #' @param from date from which the data will be queried
 #' @param to date to which the data will be queried
 #' @param interval time interval to be used in the query
-#'
-#' @return
-#' @export
 #'
 #' @keywords internal
 get_yahoo_url <- function(symbol, from, to, interval) {
@@ -63,8 +56,6 @@ get_yahoo_url <- function(symbol, from, to, interval) {
 #' @param yahoo_url url with the data to be extracted
 #'
 #' @return a data.table with the data extracted
-#' @export
-#'
 #' @keywords internal
 extract_jason <- function(yahoo_url) {
   res <-
@@ -87,6 +78,10 @@ extract_jason <- function(yahoo_url) {
 #'  Parameter frequency: Admitted values are 'daily', 'weekly', 'monthly', 'hourly'
 #' @return a data.table with the data extracted
 #' @export
+#'
+#' @import data.table
+#' @import httr
+#' @import jsonlite
 #'
 #' @examples \dontrun{get_symbols(c("AAPL", "MSFT"), "2019-01-01", "2019-12-31", "daily")}
 get_symbols <- function(symbols, from, to, frequency) {
